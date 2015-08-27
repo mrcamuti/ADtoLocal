@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=1.0
+VERSION=1.5
 /usr/bin/logger -t "ADtoLocal" "Running $VERSION of migration from mobile to local."
 # Move a Mobile (AD) account to a local account
 # Heavily derived from https://macmule.com/2013/02/18/correct-ad-users-home-mobile-home-folder-permissions/
@@ -23,28 +23,31 @@ SAMANAGE_ACCOUNT='Account_Code'						#
 ARDADMIN='shortname_of_ARD_account'					#
 #####################################################
 
-echo "#################################################################################"
-echo "#                                                                               #"
-echo "#   This script assumes that you						 						  #"
-echo "#         1) have an active internet connection                                 #"
-echo "#         2) have a Mobile Active Directory user account on this system         #"
-echo "#                                                                               #"
-echo "#     If those assumptions are false, contact helpdesk for assistance.          #"
-echo "#                                                                               #"
-echo "#     Must be run as from an administrator's account.                           #"
-echo "#     Must NOT be run from the account you are trying to migrate.               #"
-echo "#                                                                               #"
-echo "#################################################################################"
-echo ""
-echo "If asked for a password immediately following this entry, it's invoking sudo"
-echo "powers, use the admin account password for the account you're logged into."
-echo ""
+cat << EOF1
+#################################################################################
+#                                                                               #
+#   This script assumes that you                                                #
+#         1) have an active internet connection                                 #
+#         2) have a Mobile Active Directory user account on this system         #
+#                                                                               #
+#     If those assumptions are false, contact helpdesk for assistance.          #
+#                                                                               #
+#     Must be run as from an administrator's account.                           #
+#     Must NOT be run from the account you are trying to migrate.               #
+#                                                                               #
+#################################################################################
+
+If asked for a password immediately following this entry, it's invoking sudo
+powers, use the admin account password for the account you're logged into.
+
+EOF1
 sudo chmod +x "${BIGTEXT}"
 sudo chmod +x "${FVSTATUS}"
-echo ""
-echo "#########################################################"
-echo "#                      Sudo done                        #"
-echo "#########################################################"
+cat << EOF2
+#########################################################
+#                      Sudo done                        #
+#########################################################
+EOF2
 
 # running this script as root check (which makes it harder to check if we are logged into an account set to migrate)
 if [ $(whoami) != "root" ]
@@ -65,13 +68,13 @@ if [ $(id -u) -gt 999 ]
 fi
 
 # Confirm that they want to initiate this migration process
-	echo ""
-	echo "This script will delete your Active Directory user and migrate that data to a local account."
-	echo ""
-	echo "***Seriously, read this***"
-	echo ""
-	echo ""
-	sleep 5
+cat << EOF2
+This script will delete your Active Directory user and migrate that data to a local account.
+
+***Seriously, read this***
+EOF2
+
+sleep 5
 CONFIRM=0
 # Set a password that will be applied to all local acccounts
 while [ ${CONFIRM} == 0 ]; do
