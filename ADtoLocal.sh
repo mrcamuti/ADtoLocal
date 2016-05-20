@@ -11,17 +11,17 @@ BIGTEXT=$(dirname "$0")/BigHonkingText
 FVSTATUS=$(dirname "$0")/filevault_2_status_check.sh
 OS_MINOR=$(sw_vers -productVersion | awk -F. '{print $2}')
 
-#####################################################
-#	 User-facing variables - EDIT THIS SECTION		#
-#####################################################
-ADADMINUSER='removeADaccount'						#
-ADADMINPASSWORD='PA$$w0rd_for_ADADMINUSER'			#
-STAFFID='20'										#
-FV2ADMIN='localuseradmin'							#
-UNLOCKFV2PASSWORD='PASSW0rd_for_FV2ADMIN_acct'		#
-SAMANAGE_ACCOUNT='Account_Code'						#
-ARDADMIN='shortname_of_ARD_account'					#
-#####################################################
+################################################
+#  User-facing variables - EDIT THIS SECTION   #
+################################################
+ADADMINUSER='ADAdminAccountThatCanRemoveComps' #
+ADADMINPASSWORD='PA$$w0rd_for_ADADMINUSER'     #
+STAFFID='20'                                   #
+FV2ADMIN='localuseradmin'                      #
+UNLOCKFV2PASSWORD='PASSW0rd_for_FV2ADMIN_acct' #
+SAMANAGE_ACCOUNT='Account_Code'                #
+ARDADMIN='shortname_of_ARD_account'            #
+################################################
 
 cat << EOF1
 #################################################################################
