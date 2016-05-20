@@ -17,9 +17,11 @@ OS_MINOR=$(sw_vers -productVersion | awk -F. '{print $2}')
 ADADMINUSER='ADAdminAccountThatCanRemoveComps' #
 ADADMINPASSWORD='PA$$w0rd_for_ADADMINUSER'     #
 STAFFID='20'                                   #
+#  Necessary if you are using FileVault        #
+#  Encryption on your drives                   #
 FV2ADMIN='localuseradmin'                      #
 UNLOCKFV2PASSWORD='PASSW0rd_for_FV2ADMIN_acct' #
-SAMANAGE_ACCOUNT='Account_Code'                #
+#  OPTIONAL  #                                 #
 ARDADMIN='shortname_of_ARD_account'            #
 ################################################
 
@@ -189,38 +191,6 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${ARDADMIN}
 }
 
-# Install the SAManage agent, so we can keep track of machines
-function SAMANAGE {
-		# Uninstall current SAManage agent
-	sudo /Applications/Samanage\ Agent.app/Contents/Resources/uninstaller.sh
-	
-	# Change working directory to /tmp
-	cd /tmp
-	
-	# Download SAManage Mac agent software
-	curl -O http://cdn.samanage.com/download/Mac+Agent/SAManage-Agent-for-Mac.dmg
-	
-	# Mount the SAManage-Agent-for-Mac.dmg disk image as /tmp/SAManage-Mac-Agent
-	hdiutil attach SAManage-Agent-for-Mac.dmg -nobrowse -noverify -noautoopen
-	
-	# Replace <ACCT_NAME> with your Samanage account name below
-	echo ${SAMANAGE_ACCOUNT} > /tmp/samanage
-	
-	# Install the SAManage Mac agent
-	sudo installer -dumplog -verbose -pkg /Volumes/Samanage-Mac-Agent-*/Samanage-Mac-Agent-*.pkg -target "/"
-	
-	# Clean-up
-	# Unmount the SAManage-Agent-for-Mac.dmg disk image from /Volumes
-	hdiutil eject -force /Volumes/Samanage-Mac-Agent-*
-	
-	# Remove /tmp/samanage
-	sudo rm /tmp/samanage
-	sudo rm /tmp/samanage_no_soft
-	
-	# Remove the SAManage-Agent-for-Mac.dmg disk image from /tmp
-	sudo rm /tmp/SAManage-Agent-for-Mac.dmg
-}
-
 #####################
 #	Main Program	#
 #####################
@@ -266,5 +236,3 @@ done
 unset LOCALPASSWORD
 
 ARDENROLL
-
-SAMANAGE
